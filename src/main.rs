@@ -63,7 +63,7 @@ fn main() {
     };
     println!("Number is {}", number);
 
-    let result_2 = my_function_name_2(3, 42);
+    let result_2 = my_function_name_2(3, 24);
     // match result_2 {
     //     Ok(r) => println!("Result is {:?}", r),
     //     Err(e) => println!("Error is {:?}", e),
@@ -73,6 +73,13 @@ fn main() {
     } else {
         println!("Error is {:?}", result_2.unwrap_err());
     }
+
+    // let result_3 = result_2.unwrap_or_else(|err_code|  {
+    //     println!("Error is {:?}", err_code);
+    //     err_code as u32
+    // });
+    let result_3 = result_2.unwrap_or_else(get_code);
+    println!("Result_3 err code is {:?}", result_3);
 }
 
 pub fn my_function_name(argument1: u32, argument2: u8) -> Option<u32> {
@@ -93,4 +100,28 @@ pub fn my_function_name_2(argument1: u32, argument2: u8) -> Result<u32, u8> {
     } else {
         Ok(result)
     }
+}
+
+fn get_code(code: u8) -> u32 {
+    code as u32
+}
+
+pub fn borrow_this() {
+    let my_string = String::from("Hello, world!");
+    another_function(&my_string);
+    println!("My string is {}", my_string);
+}
+
+pub fn borrow_this_wrong() {
+    let my_string = String::from("Hello, world!");
+    another_function_no_reference(my_string);
+    println!("My string is {}", my_string);// error will come to here! 
+} 
+
+pub fn another_function(string_reference: &str) {
+    println!("String reference is {}", string_reference);
+}
+
+pub fn another_function_no_reference(string_reference: String) {
+    println!("String reference is {}", string_reference);
 }
